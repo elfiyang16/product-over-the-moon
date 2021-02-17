@@ -1,0 +1,47 @@
+service: product-on-the-cloud
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-west-1
+  profile: elfi-tester
+functions:
+  graphql:
+    handler: src/apollo-server.graphqlHandler
+    events:
+      - http:
+          path: graphql
+          method: post
+          cors: true
+      - http:
+          path: graphql
+          method: get
+          cors: true
+resources:
+  Resources:
+    ProductInfo:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: quantity
+            AttributeType: S
+          - AttributeName: vendor
+            AttributeType: S
+          - AttributeName: vendor_email
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ProductInfo
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-webpack
+  - serverless-offline
+custom:
+  webpack:
+    includeModules: true
