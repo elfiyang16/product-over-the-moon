@@ -30,6 +30,8 @@ resources:
             AttributeType: S
           - AttributeName: vendor_email
             AttributeType: S
+          - AttributeName: name
+            AttributeType: S
         KeySchema:
           - AttributeName: id
             KeyType: HASH
