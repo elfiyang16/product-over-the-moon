@@ -53,6 +53,33 @@ const getProducts = async () => {
   }
 };
 
+// Get Product By Name
+
+const getProductByName = async (name) => {
+  const params = {
+    TableName: TABLENAME,
+    IndexName: 'name-index',
+    KeyConditionExpression: '#inputName = :inputName',
+    ExpressionAttributeValues: {
+      ':inputName': { S: name },
+    },
+    ExpressionAttributeNames: {
+      '#inputName': 'name',
+    },
+  };
+
+  try {
+    const results = await client.send(new QueryCommand(params));
+    if (results.Items && results.Items.length > 0) {
+      let product = unmarshall(results.Items[0]);
+      return product;
+    }
+  } catch (err) {
+    console.error(err);
+    return err;
+  }
+};
+
 // ====================================
 
 export const resolvers = {
@@ -62,6 +89,9 @@ export const resolvers = {
     },
     product: (root, args) => {
       return getProductById(args.id);
+    },
+    productByName(root, args) {
+      return getProductByName(args.name);
     },
   },
 };
