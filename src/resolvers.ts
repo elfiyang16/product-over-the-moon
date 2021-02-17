@@ -80,6 +80,28 @@ const getProductByName = async (name) => {
   }
 };
 
+// Add Product
+const getAddProduct = async (product) => {
+  let userUUID = uuid();
+
+  const params = {
+    TableName: TABLENAME,
+    Item: marshall({
+      id: userUUID,
+      ...product.input,
+    }),
+  };
+
+  try {
+    await client.send(new PutItemCommand(params));
+    const result = await getProductById(userUUID);
+    return result;
+  } catch (err) {
+    console.error(err);
+    return err;
+  }
+};
+
 // ====================================
 
 export const resolvers = {
@@ -92,6 +114,11 @@ export const resolvers = {
     },
     productByName(root, args) {
       return getProductByName(args.name);
+    },
+  },
+  Mutation: {
+    addProduct: (root, args) => {
+      return getAddProduct(args);
     },
   },
 };
