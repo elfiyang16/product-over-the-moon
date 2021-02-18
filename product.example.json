@@ -1,0 +1,16 @@
+[
+  {
+    "id": "49af62a7-502d-4b88-acc1-4f12c1d30de9",
+    "name": "screen",
+    "quantity": "0",
+    "vendor": "Julia",
+    "vendor_email": "julia@test.io"
+  },
+  {
+    "id": "8359c941-56a1-4449-bf04-4e5cb4d1daad",
+    "name": "mouse",
+    "quantity": "10",
+    "vendor": "Jone",
+    "vendor_email": "jone@test.io"
+  }
+]
